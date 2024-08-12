@@ -1,0 +1,50 @@
+# The main job for the example pipeline
+resources:
+  jobs:
+    example_job:
+    # [User Input Required] 
+      name: example_notebook_workflow
+      description: This is an example workflow that runs an example notebook
+    # [User Input Required] 
+      schedule:
+        # Run every day at 8:37 AM MST
+        quartz_cron_expression: "44 37 11 * * ?"
+        timezone_id: America/Boise
+    # [User Input Required] 
+      tags:
+        envionment: ${var.env}
+        deployment: dab
+    # [User Input Required] 
+      email_notifications:
+        on_failure:
+          - guanjie.shen@databricks.com
+    # [User Input Required] 
+      tasks:
+        - task_key: example_notebook_1
+          notebook_task:
+              notebook_path: ../../pipelines/example_etl_notebook
+          job_cluster_key: test_cluster
+        - task_key: example_notebook_2
+          depends_on:
+            - task_key: example_notebook_1
+          notebook_task:
+            notebook_path: ../../pipelines/example_etl_notebook
+          job_cluster_key: test_cluster
+      job_clusters:
+        - job_cluster_key: test_cluster
+          new_cluster:
+            spark_version: 14.3.x-scala2.12
+            azure_attributes:
+              first_on_demand: 1
+              availability: ON_DEMAND_AZURE
+              spot_bid_max_price: -1
+            node_type_id: Standard_D4ds_v5
+            spark_env_vars:
+              PYSPARK_PYTHON: /databricks/python3/bin/python3
+            enable_elastic_disk: true
+            data_security_mode: USER_ISOLATION
+            runtime_engine: STANDARD
+            num_workers: 1
+    # Do not Edit Below This Line 
+      queue:
+        enabled: true
