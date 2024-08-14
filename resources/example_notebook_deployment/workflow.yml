@@ -7,8 +7,8 @@ resources:
       description: This is an example workflow that runs an example notebook
     # [User Input Required] 
       schedule:
-        # Run every day at 8:37 AM MST
-        quartz_cron_expression: "44 37 11 * * ?"
+        # Run every day at 8:38 AM MST
+        quartz_cron_expression: "44 38 11 * * ?"
         timezone_id: America/Boise
     # [User Input Required] 
       tags:
