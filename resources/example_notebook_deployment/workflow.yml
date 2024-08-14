@@ -22,13 +22,13 @@ resources:
       tasks:
         - task_key: example_notebook_1
           notebook_task:
-              notebook_path: ../../pipelines/example_etl_notebook
+              notebook_path: ../../pipelines/example_etl_notebook.py
           job_cluster_key: test_cluster
         - task_key: example_notebook_2
           depends_on:
             - task_key: example_notebook_1
           notebook_task:
-            notebook_path: ../../pipelines/example_etl_notebook
+            notebook_path: ../../pipelines/example_etl_notebook.py
           job_cluster_key: test_cluster
       job_clusters:
         - job_cluster_key: test_cluster
